@@ -129,7 +129,8 @@ html_content = '''
             emailjs.send("service_ppctysu", "template_256ssxq", {
                 question1: userChoices.question1,
                 question2: userChoices.question2,
-                question3: userChoices.question3
+                question3: userChoices.question3,
+                score: userChoices.score
             }).then(function(response) {
                 console.log("SUCCESS!", response.status, response.text);
             }, function(error) {
