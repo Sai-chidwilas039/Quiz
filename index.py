@@ -2,7 +2,7 @@ import webbrowser
 import os
 
 # Save the HTML content to a specific path
-file_path = os.path.abspath('quiz.html')  # Get the absolute path
+file_path = os.path.abspath('index.html')  # Get the absolute path
 
 html_content = '''
 <!DOCTYPE html>
@@ -57,6 +57,15 @@ html_content = '''
             color: #4CAF50;
         }
     </style>
+
+    <!-- Include EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("_9NGvOMes6rWxymrr");
+        })();
+    </script>
 </head>
 <body>
 
@@ -120,6 +129,25 @@ html_content = '''
 
             // Disable submit button after submission
             document.querySelector('.submit-btn').disabled = true;
+
+            // Send quiz results via EmailJS
+            sendResults(score, totalQuestions);
+        }
+
+        function sendResults(score, totalQuestions) {
+            var templateParams = {
+                user_name: 'Quiz Participant',
+                user_score: score,
+                user_total: totalQuestions
+            };
+
+            emailjs.send('service_ppctysu', 'template_256ssxq', templateParams)
+                .then(function(response) {
+                    alert('Quiz results sent successfully!');
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to send quiz results.');
+                });
         }
     </script>
 
