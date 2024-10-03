@@ -2,7 +2,7 @@ import webbrowser
 import os
 
 # Save the HTML content to a specific path
-file_path = os.path.abspath('index.html')  # Get the absolute path
+file_path = os.path.abspath('quiz.html')  # Get the absolute path
 
 html_content = '''
 <!DOCTYPE html>
@@ -57,15 +57,6 @@ html_content = '''
             color: #4CAF50;
         }
     </style>
-
-    <!-- Include EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS with your public key
-        (function() {
-            emailjs.init("_9NGvOMes6rWxymrr");
-        })();
-    </script>
 </head>
 <body>
 
@@ -101,7 +92,14 @@ html_content = '''
         <div class="result" id="result"></div>
     </div>
 
-    <script>
+    <!-- Include the EmailJS library -->
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("user_9NGvOMes6rWxymrr");  // Replace with your EmailJS user ID
+        })();
+
         function checkAnswers() {
             var score = 0;
             var totalQuestions = 3;
@@ -111,12 +109,30 @@ html_content = '''
             var q2 = document.querySelector('input[name="q2"]:checked');
             var q3 = document.querySelector('input[name="q3"]:checked');
 
-            // Check answers
+            // Check answers and calculate score
             if (q1 && q1.value === "Paris") score++;
             if (q2 && q2.value === "JavaScript") score++;
             if (q3 && q3.value === "Bill Gates") score++;
 
-            // Display result
+            // Store user choices
+            var userChoices = {
+                question1: q1 ? q1.value : "No answer",
+                question2: q2 ? q2.value : "No answer",
+                question3: q3 ? q3.value : "No answer"
+            };
+
+            // Send email with quiz answers using EmailJS
+            emailjs.send("service_ppctysu", "template_256ssxq", {
+                question1: userChoices.question1,
+                question2: userChoices.question2,
+                question3: userChoices.question3
+            }).then(function(response) {
+                console.log("SUCCESS!", response.status, response.text);
+            }, function(error) {
+                console.log("FAILED...", error);
+            });
+
+            // Display result (score only, not user choices)
             var result = document.getElementById('result');
             result.innerHTML = "You scored " + score + " out of " + totalQuestions;
             result.style.display = "block";
@@ -129,25 +145,6 @@ html_content = '''
 
             // Disable submit button after submission
             document.querySelector('.submit-btn').disabled = true;
-
-            // Send quiz results via EmailJS
-            sendResults(score, totalQuestions);
-        }
-
-        function sendResults(score, totalQuestions) {
-            var templateParams = {
-                user_name: 'Quiz Participant',
-                user_score: score,
-                user_total: totalQuestions
-            };
-
-            emailjs.send('service_ppctysu', 'template_256ssxq', templateParams)
-                .then(function(response) {
-                    alert('Quiz results sent successfully!');
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    alert('Failed to send quiz results.');
-                });
         }
     </script>
 
