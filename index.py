@@ -146,7 +146,7 @@ html_content = '''
                     alert('Quiz results sent successfully!');
                 }, function(error) {
                     console.log('FAILED...', error);
-                    alert('Failed to send quiz result.');
+                    alert('Failed to send quiz results.');
                 });
         }
     </script>
