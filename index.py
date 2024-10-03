@@ -129,7 +129,7 @@ html_content = '''
             }).then(function(response) {
                 console.log("SUCCESS!", response.status, response.text);
             }, function(error) {
-                console.log("FAILED...", error);
+                console.log("FAILED", error);
             });
 
             // Display result (score only, not user choices)
