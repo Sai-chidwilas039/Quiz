@@ -2,7 +2,7 @@ import webbrowser
 import os
 
 # Save the HTML content to a specific path
-file_path = os.path.abspath('quiz.html')  # Get the absolute path
+file_path = os.path.abspath('index.html')  # Get the absolute path
 
 html_content = '''
 <!DOCTYPE html>
