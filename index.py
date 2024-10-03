@@ -95,14 +95,14 @@ html_content = '''
     <!-- Include the EmailJS library -->
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "_9NGvOMes6rWxymrr",
-      });
-   })();
-</script>
+    </script>
+    <script type="text/javascript">
+      (function(){
+        emailjs.init({
+          publicKey: "_9NGvOMes6rWxymrr",
+        });
+      })();
+    </script>
 
         function checkAnswers() {
             var score = 0;
