@@ -103,52 +103,51 @@ html_content = '''
 
     <script>
         function checkAnswers() {
-            var score = 0;
-            var totalQuestions = 3;
+    var score = 0;
+    var totalQuestions = 3;
 
-            // Get answers
-            var q1 = document.querySelector('input[name="q1"]:checked');
-            var q2 = document.querySelector('input[name="q2"]:checked');
-            var q3 = document.querySelector('input[name="q3"]:checked');
+    // Get answers
+    var q1 = document.querySelector('input[name="q1"]:checked');
+    var q2 = document.querySelector('input[name="q2"]:checked');
+    var q3 = document.querySelector('input[name="q3"]:checked');
+    
+    if (q1 && q1.value === "Paris") score++;
+    if (q2 && q2.value === "JavaScript") score++;
+    if (q3 && q3.value === "Bill Gates") score++;
 
-            // Check answers
-            if (q1 && q1.value === "Paris") score++;
-            if (q2 && q2.value === "JavaScript") score++;
-            if (q3 && q3.value === "Bill Gates") score++;
+    var userName = document.getElementById('userName').value;
 
-            // Display result
-            var result = document.getElementById('result');
-            result.innerHTML = "You scored " + score + " out of " + totalQuestions;
-            result.style.display = "block";
+    // Display result
+    var result = document.getElementById('result');
+    result.innerHTML = "You scored " + score + " out of " + totalQuestions;
+    result.style.display = "block";
 
-            // Disable all radio buttons after submission
-            var radios = document.querySelectorAll('input[type="radio"]');
-            radios.forEach(function(radio) {
-                radio.disabled = true;
-            });
+    // Save quiz results to the backend
+    saveResults(userName, score, totalQuestions);
+}
 
-            // Disable submit button after submission
-            document.querySelector('.submit-btn').disabled = true;
-
-            // Send quiz results via EmailJS
-            sendResults(score, totalQuestions);
-        }
-
-        function sendResults(score, totalQuestions) {
-            var templateParams = {
-                user_name: 'Quiz Participant',
-                user_score: score,
-                user_total: totalQuestions
-            };
-
-            emailjs.send('service_ppctysu', 'template_256ssxq', templateParams)
-                .then(function(response) {
-                    alert('Quiz results sent successfully!');
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    alert('Failed to send quiz results.');
-                });
-        }
+function saveResults(userName, score, totalQuestions) {
+    fetch('http://localhost:3000/save-results', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_name: userName,
+            user_score: score,
+            user_total: totalQuestions
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to save quiz results.');
+    });
+}
     </script>
 
 </body>
