@@ -117,14 +117,13 @@ html_content = '''
     if (q2 && q2.value === "JavaScript") score++;
     if (q3 && q3.value === "Bill Gates") score++;
 
-<<<<<<< HEAD
     var userName = document.getElementById('userName').value;
 
     // Display result
     var result = document.getElementById('result');
     result.innerHTML = "You scored " + score + " out of " + totalQuestions;
     result.style.display = "block";
-=======
+
             // Check answers and calculate score
             if (q1 && q1.value === "Paris") score++;
             if (q2 && q2.value === "JavaScript") score++;
@@ -153,39 +152,14 @@ html_content = '''
             var result = document.getElementById('result');
             result.innerHTML = "You scored " + score + " out of " + totalQuestions;
             result.style.display = "block";
->>>>>>> 5fa45b173fc3e34ba21289b546297ad41693d8eb
+
 
     // Save quiz results to the backend
     saveResults(userName, score, totalQuestions);
 }
-
-<<<<<<< HEAD
-function saveResults(userName, score, totalQuestions) {
-    fetch('http://localhost:3000/save-results', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            user_name: userName,
-            user_score: score,
-            user_total: totalQuestions
-        })
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-        alert(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to save quiz results.');
-    });
+     // Disable submit button after submission
+     document.querySelector('.submit-btn').disabled = true;
 }
-=======
-            // Disable submit button after submission
-            document.querySelector('.submit-btn').disabled = true;
-        }
     </script>
 
 </body>
